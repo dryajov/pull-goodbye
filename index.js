@@ -13,7 +13,8 @@ module.exports = function (stream, goodbye) {
     sink: pull(
       //when the goodbye is received, allow the source to end.
       pull.filter(function (data) {
-        if(data !== goodbye) return true
+        if (typeof goodbye === 'function' && !goodbye(data, false)) return true
+        else if (typeof goodbye !== 'function' && data !== goodbye) return true
         e.end()
       }),
       stream.sink

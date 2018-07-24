@@ -6,7 +6,9 @@ module.exports = function endable (goodbye) {
       read(abort, function (end, data) {
         if(end && !sentEnd) {
           sentEnd = true
-          return cb(null, goodbye)
+          return cb(null, typeof goodbye === 'function' 
+          ? goodbye(undefined, true)
+          : goodbye)
         }
         //send end message...
 
